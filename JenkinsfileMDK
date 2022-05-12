@@ -1,0 +1,25 @@
+	agent{ label 'maven' }
+	
+	stages{
+		stage('Build'){
+			steps{
+				sh 'mvn clean install'
+			}
+		}
+		stage('Unit Test'){
+			steps{
+				jacoco()
+			}
+		}
+		stage('Testing'){
+			steps{
+				echo 'we are doing QA and UAT here'
+			}
+		}
+		stage('production'){
+			steps{
+				echo 'deploying'
+			}
+		}
+	}
+}
