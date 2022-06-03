@@ -1,0 +1,20 @@
+pipeline{
+    agent any
+    stages{
+        stage('Build'){
+            steps{
+                sh 'mvn clean install'
+            }
+        }
+        stage('Unit-Test'){
+            steps{
+                jacoco()
+            }
+        }
+        stage('end-message'){
+            steps{
+                echo "ending job"
+            }
+        }
+    }
+}
