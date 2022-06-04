@@ -1,0 +1,50 @@
+pipeline{
+    agent {
+	label 'maven'
+	}
+    environment {
+        PATH = "$PATH:/usr/share/maven/bin"
+    }
+    stages{
+       stage('GetCode'){
+            steps{
+                git branch: 'main', changelog: false, credentialsId: 'GitCreds', poll: false, url: 'https://github.com/Prhg8/javawebapp.git'
+            }
+         }        
+       stage('Build'){
+            steps{
+                sh 'mvn clean package'
+            }
+         }
+        stage('SonarQube analysis') {
+//    def scannerHome = tool 'SonarScanner 4.7.0.2747';
+        steps{
+        withSonarQubeEnv('sonarqube-7.9.5') { 
+        // If you have configured more than one global server connection, you can specify its name
+//      sh "${scannerHome}/bin/sonar-scanner"
+        sh "mvn sonar:sonar"
+    }
+        }
+        }
+		stage('Upload to Nexus'){
+            steps{
+                nexusArtifactUploader artifacts: [
+				[
+				artifactId: 'SimpleWebApplication', classifier: '', 
+				file: 'target/SimpleWebApplication.war', 
+				type: 'war'
+				]
+			], 
+			credentialsId: 'Nexus3', 
+			groupId: 'com.maven.bt', 
+			nexusUrl: '54.89.140.37:8081', 
+			nexusVersion: 'nexus3', 
+			protocol: 'http', 
+			repository: 'Simple-App/', 
+			version: '9.1.14'
+            }
+         }
+		
+       
+    }
+}
