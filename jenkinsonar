@@ -25,19 +25,22 @@ pipeline{
         }
 		stage('Upload to Nexus'){
             steps{
-                nexusArtifactUploader artifacts: [
-			[artifactId: 'car-webapp', 
-			classifier: '', 
-			file: 'target/SimpleWebApplication.war', 
-			type: 'war']
-			], 
-			credentialsId: 'Nexus-login', 
-			groupId: 'nexus-1st', 
-			nexusUrl: '13.233.28.183:8081', 
-			nexusVersion: 'nexus2', 
-			protocol: 'http', 
-			repository: 'nexus-app', 
-			version: '0.0.1'
+                nexusArtifactUploader artifacts: 
+					[
+						[
+						 artifactId: 'SimpleWebApplication', 
+						 classifier: '', 
+						 file: 'target/SimpleWebApplication.war', 
+						 type: 'war'
+						 ]
+					], 
+						 credentialsId: 'Nexus-login', 
+						 groupId: 'com.maven.bt', 
+						 nexusUrl: '13.234.30.211:8081', 
+						 nexusVersion: 'nexus3', 
+						 protocol: 'http', 
+						 repository: 'mysonarrepo', 
+						 version: '9.1.14'
             }
          }
 		
