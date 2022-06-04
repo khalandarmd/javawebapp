@@ -8,7 +8,7 @@ pipeline{
     stages{
        stage('GetCode'){
             steps{
-                git branch: 'main', changelog: false, credentialsId: 'GitCreds', poll: false, url: 'https://github.com/Prhg8/javawebapp.git'
+                git branch: 'main', credentialsId: 'git-hub-pass', url: 'https://github.com/khalandarmd/javawebapp.git'
             }
          }        
        stage('Build'){
@@ -19,7 +19,7 @@ pipeline{
         stage('SonarQube analysis') {
 //    def scannerHome = tool 'SonarScanner 4.7.0.2747';
         steps{
-        withSonarQubeEnv('sonarqube-7.9.5') { 
+        withSonarQubeEnv('sonarqube') { 
         // If you have configured more than one global server connection, you can specify its name
 //      sh "${scannerHome}/bin/sonar-scanner"
         sh "mvn sonar:sonar"
@@ -29,19 +29,18 @@ pipeline{
 		stage('Upload to Nexus'){
             steps{
                 nexusArtifactUploader artifacts: [
-				[
-				artifactId: 'SimpleWebApplication', classifier: '', 
-				file: 'target/SimpleWebApplication.war', 
-				type: 'war'
-				]
+			[artifactId: 'car-webapp', 
+			classifier: '', 
+			file: 'target/SimpleWebApplication.war', 
+			type: 'war']
 			], 
-			credentialsId: 'Nexus3', 
-			groupId: 'com.maven.bt', 
-			nexusUrl: '54.89.140.37:8081', 
-			nexusVersion: 'nexus3', 
+			credentialsId: 'Nexus-login', 
+			groupId: 'nexus-1st', 
+			nexusUrl: '13.233.28.183:8081', 
+			nexusVersion: 'nexus2', 
 			protocol: 'http', 
-			repository: 'Simple-App/', 
-			version: '9.1.14'
+			repository: 'nexus-app', 
+			version: '0.0.1'
             }
          }
 		
