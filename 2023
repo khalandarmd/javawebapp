@@ -6,5 +6,10 @@ pipeline{
         git branch: 'main', credentialsId: 'GitHub-Cred-2023', url: 'https://github.com/khalandarmd/javawebapp.git'
       }
     }
+    stage('Build'){
+      steps{
+        sh 'mvn clean install'
+      }
+    }
   }
 }
