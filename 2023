@@ -1,0 +1,10 @@
+pipeline{
+  agent any
+  stages{
+    stage('Checkout'){
+      steps{
+        git branch: 'main', credentialsId: 'GitHub-Cred-2023', url: 'https://github.com/khalandarmd/javawebapp.git'
+      }
+    }
+  }
+}
