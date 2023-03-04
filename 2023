@@ -3,6 +3,9 @@ pipeline{
   agent {
   label 'mvn'
 }
+tools {
+  maven 'mvn3.9.0'
+}
 
   stages{
     stage('Checkout'){
