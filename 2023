@@ -1,5 +1,9 @@
 pipeline{
-  agent any
+  
+  agent {
+  label 'mvn'
+}
+
   stages{
     stage('Checkout'){
       steps{
